@@ -79,3 +79,7 @@ Map.prototype.getBounds = function() {
 Map.prototype.featuresAt = function(point, opts, cb) {
     cb([]);
 };
+
+Map.prototype.addControl = function(control) {
+    control.addTo(this);
+}

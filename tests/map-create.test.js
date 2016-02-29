@@ -1,7 +1,6 @@
 var test = require('tape');
 var mock = require('../');
 var real = require('mapbox-gl');
-var expect = require('expect');
 
 var likeKeys = function(expected, found) {
   var expectedKeys = Object.keys(expected).filter(function(key) {
