@@ -1,3 +1,4 @@
 module.exports = {
-  Map: require('./map')
+  Map: require('./classes/map'),
+  LngLat: require('mapbox-gl/js/geo/lng_lat')
 }
