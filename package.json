@@ -1,11 +1,8 @@
 {
   "name": "mapbox-gl-js-mock",
-  "version": "0.14.0",
+  "version": "0.1.0",
   "description": "a fully featured mapbox-gl-js-mock for testing things that use mapbox-gl-js",
   "main": "index.js",
-  "scripts": {
-    "test": "browserify tests/*.test.js | tap-closer | smokestack | tap-status"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mapbox/mapbox-gl-js-mock.git"
@@ -20,12 +17,8 @@
     "url": "https://github.com/mapbox/mapbox-gl-js-mock/issues"
   },
   "homepage": "https://github.com/mapbox/mapbox-gl-js-mock#readme",
-  "devDependencies": {
-    "browserify": "^13.0.0",
+  "dependencies": {
     "mapbox-gl": "^0.14.3",
-    "smokestack": "^3.4.1",
-    "tap-closer": "^1.0.0",
-    "tap-status": "^1.0.1",
-    "tape": "^4.4.0"
+    "mock-browser": "^0.92.10"
   }
 }
