@@ -29,14 +29,19 @@ Map.prototype.addControl = function(control) {
 }
 
 Map.prototype.getContainer = function() {
-  return {
+  var container = {
     appendChild: function() {},
+    getElementsByClassName: function() {
+      return [container]
+    },
     addEventListener: function(name, handle) {},
     classList: {
       add: function() {},
       remove: function(){}
     }
   };
+
+  return container;
 }
 
 Map.prototype.getSource = function(name) {}
@@ -50,4 +55,6 @@ Map.prototype.project = function() {}
 
 Map.prototype.batch = function() {}
 
-Map.prototype.featuresAt = function() {}
+Map.prototype.queryRenderedFeatures = function() {
+  return [];
+}
