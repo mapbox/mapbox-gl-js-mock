@@ -30,11 +30,14 @@ Map.prototype.addControl = function(control) {
 
 Map.prototype.getContainer = function() {
   var container = {
+    parentNode: container,
     appendChild: function() {},
+    removeChild: function() {},
     getElementsByClassName: function() {
       return [container]
     },
     addEventListener: function(name, handle) {},
+    removeEventListener: function(){},
     classList: {
       add: function() {},
       remove: function(){}
