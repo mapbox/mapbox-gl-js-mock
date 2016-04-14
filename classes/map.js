@@ -56,8 +56,6 @@ Map.prototype.doubleClickZoom = {
 
 Map.prototype.project = function() {}
 
-Map.prototype.batch = function() {}
-
 Map.prototype.queryRenderedFeatures = function() {
   return [];
 }
