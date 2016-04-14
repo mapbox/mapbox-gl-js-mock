@@ -48,6 +48,11 @@ Map.prototype.getContainer = function() {
 }
 
 Map.prototype.getSource = function(name) {}
+Map.prototype.addSource = function(name, source) {}
+Map.prototype.removeSource = function(name) {}
+
+Map.prototype.addLayer = function(layer, before) {}
+Map.prototype.removeLayer = function(layerId) {}
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
