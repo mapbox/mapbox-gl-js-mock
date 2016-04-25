@@ -47,12 +47,14 @@ Map.prototype.getContainer = function() {
   return container;
 }
 
-Map.prototype.getSource = function(name) {}
-Map.prototype.addSource = function(name, source) {}
-Map.prototype.removeSource = function(name) {}
+Map.prototype.getSource = function(name) {};
+Map.prototype.addSource = function(name, source) {};
+Map.prototype.removeSource = function(name) {};
 
-Map.prototype.addLayer = function(layer, before) {}
-Map.prototype.removeLayer = function(layerId) {}
+Map.prototype.addLayer = function(layer, before) {};
+Map.prototype.removeLayer = function(layerId) {};
+
+Map.prototype.getZoom = function() {};
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
