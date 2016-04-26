@@ -47,9 +47,23 @@ Map.prototype.getContainer = function() {
   return container;
 }
 
-Map.prototype.getSource = function(name) {};
-Map.prototype.addSource = function(name, source) {};
-Map.prototype.removeSource = function(name) {};
+Map.prototype.getSource = function(name) {
+  if (this._sources[name]) {
+    return {
+      setData: function(data) {
+
+      }
+    };
+  }
+};
+
+Map.prototype.addSource = function(name, source) {
+  this._sources[name] = source;
+};
+
+Map.prototype.removeSource = function(name) {
+  delete this._sources[name];
+};
 
 Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
