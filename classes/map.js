@@ -57,6 +57,11 @@ Map.prototype.getSource = function(name) {
   }
 };
 
+Map.prototype.loaded = function() {
+  return true;
+};
+
+
 Map.prototype.addSource = function(name, source) {
   this._sources[name] = source;
 };
