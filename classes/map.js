@@ -80,6 +80,16 @@ Map.prototype.doubleClickZoom = {
   enable: function() {}
 }
 
+Map.prototype.boxZoom = {
+  disable: function() {},
+  enable: function() {}
+}
+
+Map.prototype.dragPan = {
+  disable: function() {},
+  enable: function() {}
+}
+
 Map.prototype.project = function() {}
 
 Map.prototype.queryRenderedFeatures = function() {
