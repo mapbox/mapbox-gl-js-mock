@@ -1,3 +1,8 @@
+var envelope = require('turf-envelope');
+var turfUnion = require('turf-union');
+var bboxPolygon = require('turf-bbox-polygon');
+var buffer = require('turf-buffer');
+
 var Evented = require('mapbox-gl/js/util/evented');
 var util = require('mapbox-gl/js/util/util');
 
@@ -51,8 +56,8 @@ Map.prototype.getSource = function(name) {
   if (this._sources[name]) {
     return {
       setData: function(data) {
-
-      }
+        this._sources[name].data = data;
+      }.bind(this)
     };
   }
 };
@@ -92,6 +97,37 @@ Map.prototype.dragPan = {
 
 Map.prototype.project = function() {}
 
-Map.prototype.queryRenderedFeatures = function() {
-  return [];
+Map.prototype.queryRenderedFeatures = function(bbox, queryParams) {
+  var tbb = [];
+  if (bbox[0].x !== undefined) {
+    tbb = [
+      Math.min(bbox[0].x, bbox[1].x),
+      Math.min(bbox[0].y, bbox[1].y),
+      Math.max(bbox[0].x, bbox[1].y),
+      Math.max(bbox[0].x, bbox[1].y)
+    ]
+  } else {
+    tbb = [
+      Math.min(bbox[0][0], bbox[1][0]),
+      Math.min(bbox[0][1], bbox[1][1]),
+      Math.max(bbox[0][0], bbox[1][0]),
+      Math.max(bbox[0][1], bbox[1][1])
+    ];
+  }
+
+  var bpoly = bboxPolygon(tbb);
+  var features = Object.keys(this._sources).reduce((memo, name) => memo.concat(this._sources[name].data.features), []);
+  features = features.filter(feature => {
+      if (feature.geometry.type === 'Point') {
+        feature = buffer(feature, .000001, 'kilometers');
+      }
+      var fpoly = envelope({
+        type: 'FeatureCollection',
+        features: [feature]
+      });
+      var merged = turfUnion(fpoly, bpoly);
+      return merged.geometry.type === 'Polygon';
+    });
+
+  return features;
 }
