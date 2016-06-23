@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/mapbox/mapbox-gl-js-mock#readme",
   "dependencies": {
-    "mapbox-gl": "^0.20.0"
+    "mapbox-gl": "^0.20.0",
+    "turf-bbox-polygon": "^3.0.10",
+    "turf-buffer": "^3.0.10",
+    "turf-union": "^3.0.10"
   }
 }
