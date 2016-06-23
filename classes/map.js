@@ -1,5 +1,4 @@
-var envelope = require('turf-envelope');
-var turfUnion = require('turf-union');
+var union = require('turf-union');
 var bboxPolygon = require('turf-bbox-polygon');
 var buffer = require('turf-buffer');
 
@@ -97,37 +96,76 @@ Map.prototype.dragPan = {
 
 Map.prototype.project = function() {}
 
-Map.prototype.queryRenderedFeatures = function(bbox, queryParams) {
-  var tbb = [];
-  if (bbox[0].x !== undefined) {
-    tbb = [
-      Math.min(bbox[0].x, bbox[1].x),
-      Math.min(bbox[0].y, bbox[1].y),
-      Math.max(bbox[0].x, bbox[1].y),
-      Math.max(bbox[0].x, bbox[1].y)
+/**
+ * Returns an array of features that overlap with the pointOrBox
+ * Currently it does not respect queryParams
+ *
+ * pointOrBox: either [x, y] pixel coordinates of a point, or [ [x1, y1] , [x2, y2] ]
+ */
+Map.prototype.queryRenderedFeatures = function(pointOrBox, queryParams) {
+  var searchBoundingBox = [];
+  if (pointOrBox[0].x !== undefined) {
+    // convert point into bounding box
+    searchBoundingBox = [
+      Math.min(pointOrBox[0].x, pointOrBox[1].x),
+      Math.min(pointOrBox[0].y, pointOrBox[1].y),
+      Math.max(pointOrBox[0].x, pointOrBox[1].y),
+      Math.max(pointOrBox[0].x, pointOrBox[1].y)
     ]
   } else {
-    tbb = [
-      Math.min(bbox[0][0], bbox[1][0]),
-      Math.min(bbox[0][1], bbox[1][1]),
-      Math.max(bbox[0][0], bbox[1][0]),
-      Math.max(bbox[0][1], bbox[1][1])
+    // convert box in bounding box
+    searchBoundingBox = [
+      Math.min(pointOrBox[0][0], pointOrBox[1][0]),
+      Math.min(pointOrBox[0][1], pointOrBox[1][1]),
+      Math.max(pointOrBox[0][0], pointOrBox[1][0]),
+      Math.max(pointOrBox[0][1], pointOrBox[1][1])
     ];
   }
 
-  var bpoly = bboxPolygon(tbb);
+  var searchPolygon = bboxPolygon(searchBoundingBox);
   var features = Object.keys(this._sources).reduce((memo, name) => memo.concat(this._sources[name].data.features), []);
   features = features.filter(feature => {
-      if (feature.geometry.type === 'Point') {
-        feature = buffer(feature, .00000001, 'kilometers');
-      }
-      var fpoly = envelope({
-        type: 'FeatureCollection',
-        features: [feature]
+    var subFeatures = [];
+
+    if (feature.geometry.type.startsWith('Multi')) {
+      // Break multi features up into single features so we can look at each one
+      var type = feature.geometry.type.replace('Multi', '');
+      subFeatures = feature.geometry.coordinates.map(coords => {
+        return {
+          type: 'Feature',
+          properties: feature.properties,
+          geometry: {
+            type: type,
+            coordinates: coords
+          }
+        }
       });
-      var merged = turfUnion(fpoly, bpoly);
+    }
+    else {
+      subFeatures.push(feature);
+    }
+
+    // union only works with polygons, so we convert points and lines into polygons
+    // TODO: Look into having this buffer match the style
+    subFeatures = subFeatures.map(subFeature => {
+      if (subFeature.geometry.type === 'Point' || subFeature.geometry.type === 'LineString') {
+        return buffer(subFeature, .00000001, 'kilometers');
+      }
+      else {
+        return subFeature;
+      }
+    });
+
+    // if any of the sub features intersect with the seach box, return true
+    // if none of them intersect with the search box, return false
+    return subFeatures.some(subFeautre => {
+      // union takes two polygons and merges them.
+      // If they intersect it returns them merged Polygon geometry type
+      // If they don't intersect it retuns them as a MultiPolygon geomentry type
+      var merged = union(subFeautre, searchPolygon);
       return merged.geometry.type === 'Polygon';
     });
+  });
 
   return features;
 }
