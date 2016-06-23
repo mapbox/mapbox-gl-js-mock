@@ -119,7 +119,7 @@ Map.prototype.queryRenderedFeatures = function(bbox, queryParams) {
   var features = Object.keys(this._sources).reduce((memo, name) => memo.concat(this._sources[name].data.features), []);
   features = features.filter(feature => {
       if (feature.geometry.type === 'Point') {
-        feature = buffer(feature, .000001, 'kilometers');
+        feature = buffer(feature, .00000001, 'kilometers');
       }
       var fpoly = envelope({
         type: 'FeatureCollection',
