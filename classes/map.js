@@ -169,3 +169,8 @@ Map.prototype.queryRenderedFeatures = function(pointOrBox, queryParams) {
 
   return features;
 }
+
+Map.prototype.remove = function() {
+  this._events = [];
+  this.sources = [];
+}
