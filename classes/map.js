@@ -3,6 +3,8 @@ var bboxPolygon = require('turf-bbox-polygon');
 var buffer = require('turf-buffer');
 
 var Evented = require('mapbox-gl/js/util/evented');
+var Camera = require('mapbox-gl/js/ui/camera');
+var Transform = require('mapbox-gl/js/geo/transform');
 var util = require('mapbox-gl/js/util/util');
 
 var Style = require('./style');
@@ -16,6 +18,7 @@ var Map = module.exports = function(options) {
   this._events = {};
   this._sources = {};
   this.style = new Style();
+  this.transform = new Transform();
   this._controlCorners = {
     'top-left': {
       appendChild: function() {}
@@ -27,6 +30,7 @@ var Map = module.exports = function(options) {
 }
 
 util.extend(Map.prototype, Evented);
+util.extend(Map.prototype, Camera.prototype);
 
 Map.prototype.addControl = function(control) {
   control.addTo(this);
