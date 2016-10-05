@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-js-mock",
-  "version": "0.23.1",
+  "version": "0.25.0",
   "description": "A maybe-some-day-fully-featured mock for mapbox-gl-js",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/mapbox/mapbox-gl-js-mock#readme",
   "dependencies": {
-    "mapbox-gl": "0.20.x - 0.21.x",
+    "mapbox-gl": "0.20.x - 0.25.x",
     "turf-bbox-polygon": "^3.0.10",
     "turf-buffer": "^3.0.10",
     "turf-union": "^3.0.10"
