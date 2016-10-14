@@ -1,6 +1,6 @@
-var union = require('turf-union');
-var bboxPolygon = require('turf-bbox-polygon');
-var buffer = require('turf-buffer');
+var union = require('@turf/union');
+var bboxPolygon = require('@turf/bbox-polygon');
+var buffer = require('@turf/buffer');
 
 var Evented = require('mapbox-gl/js/util/evented');
 var util = require('mapbox-gl/js/util/util');
