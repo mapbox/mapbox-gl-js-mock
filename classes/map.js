@@ -80,6 +80,7 @@ Map.prototype.removeSource = function(name) {
 
 Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
+Map.prototype.getLayer = function(layerId) {};
 
 Map.prototype.getZoom = function() {};
 
