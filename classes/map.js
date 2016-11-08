@@ -1,3 +1,4 @@
+var LngLat = require('mapbox-gl/js/geo/lng_lat');
 var union = require('@turf/union');
 var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
@@ -12,8 +13,14 @@ var defaultOptions = {
   doubleClickZoom: true
 }
 
+function functor(x) {
+  return function() {
+    return x;
+  };
+}
+
 var Map = module.exports = function(options) {
-  this.options = util.extend(options, defaultOptions);
+  this.options = util.extend(options || {}, defaultOptions);
   this._events = {};
   this._sources = {};
   this.style = new Style();
@@ -29,14 +36,18 @@ var Map = module.exports = function(options) {
 
   var setters = [
     // Camera options
-    'jumpTo', 'panTo', 'panBy', 'setCenter', 'fitBounds',
-    'resetNorth', 'setBearing', 'setZoom',
+    'jumpTo', 'panTo', 'panBy',
+    'setCenter',
+    'setBearing',
+    'setPitch',
+    'setZoom',
+    'fitBounds',
+    'resetNorth',
+    'snapToNorth',
     // Settings
     'setMaxBounds', 'setMinZoom', 'setMaxZoom'
   ];
-  function genericSetter() {
-    return this;
-  }
+  var genericSetter = functor(this);
   for (var i = 0; i < setters.length; i++) {
     this[setters[i]] = genericSetter;
   }
@@ -94,13 +105,10 @@ Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
-Map.prototype.getZoom = function() {
-  return 0;
-};
-
-Map.prototype.getBearing = function() {
-  return 0;
-};
+Map.prototype.getZoom = functor(0);
+Map.prototype.getBearing = functor(0);
+Map.prototype.getPitch = functor(0);
+Map.prototype.getCenter = functor(new LngLat(0, 0));
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
