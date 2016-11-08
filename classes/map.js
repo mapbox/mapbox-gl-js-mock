@@ -3,7 +3,6 @@ var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
 var Evented = require('mapbox-gl/js/util/evented');
-var Camera = require('mapbox-gl/js/ui/camera');
 var Transform = require('mapbox-gl/js/geo/transform');
 var util = require('mapbox-gl/js/util/util');
 
@@ -27,10 +26,23 @@ var Map = module.exports = function(options) {
   setTimeout(function() {
     this.fire('load');
   }.bind(this), 0);
+
+  var setters = [
+    // Camera options
+    'jumpTo', 'panTo', 'panBy', 'setCenter', 'fitBounds',
+    'resetNorth', 'setBearing', 'setZoom',
+    // Settings
+    'setMaxBounds', 'setMinZoom', 'setMaxZoom'
+  ];
+  function genericSetter() {
+    return this;
+  }
+  for (var i = 0; i < setters.length; i++) {
+    this[setters[i]] = genericSetter;
+  }
 }
 
 util.extend(Map.prototype, Evented);
-util.extend(Map.prototype, Camera.prototype);
 
 Map.prototype.addControl = function(control) {
   control.addTo(this);
@@ -82,7 +94,13 @@ Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
-Map.prototype.getZoom = function() {};
+Map.prototype.getZoom = function() {
+  return 0;
+};
+
+Map.prototype.getBearing = function() {
+  return 0;
+};
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
