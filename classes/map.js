@@ -83,7 +83,8 @@ Map.prototype.getSource = function(name) {
     return {
       setData: function(data) {
         this._sources[name].data = data;
-      }.bind(this)
+      }.bind(this),
+      loadTile: function() {}
     };
   }
 };
