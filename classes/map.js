@@ -56,7 +56,7 @@ var Map = module.exports = function(options) {
 util.extend(Map.prototype, Evented);
 
 Map.prototype.addControl = function(control) {
-  control.addTo(this);
+  control.onAdd(this);
 }
 
 Map.prototype.getContainer = function() {
