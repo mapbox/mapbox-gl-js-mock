@@ -45,7 +45,10 @@ var Map = module.exports = function(options) {
     'resetNorth',
     'snapToNorth',
     // Settings
-    'setMaxBounds', 'setMinZoom', 'setMaxZoom'
+    'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+    // Layer properties
+    'setLayoutProperty',
+    'setPaintProperty'
   ];
   var genericSetter = functor(this);
   for (var i = 0; i < setters.length; i++) {
