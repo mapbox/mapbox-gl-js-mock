@@ -1,3 +1,7 @@
+# 0.28.0
+
+* **map**: add setLayoutProperty & setPaintProperty setters
+
 ## 0.27.1
 
 * Fixes support for the new [control interface](https://www.mapbox.com/mapbox-gl-js/api/#IControl)
