@@ -23,6 +23,9 @@ var Map = module.exports = function(options) {
   this.options = util.extend(options || {}, defaultOptions);
   this._events = {};
   this._sources = {};
+  this._collectResourceTiming = !!options.collectResourceTiming;
+  this.zoom = options.zoom || 0;
+  this.center = options.center ? new LngLat(options.center[0], options.center[1]) : new LngLat(0, 0);
   this.style = new Style();
   this.transform = new Transform();
   this._controlCorners = {
@@ -37,7 +40,6 @@ var Map = module.exports = function(options) {
   var setters = [
     // Camera options
     'jumpTo', 'panTo', 'panBy',
-    'setCenter',
     'setBearing',
     'setPitch',
     'setZoom',
@@ -109,10 +111,11 @@ Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
-Map.prototype.getZoom = functor(0);
+Map.prototype.getZoom = function() { return this.zoom; };
 Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
-Map.prototype.getCenter = functor(new LngLat(0, 0));
+Map.prototype.getCenter = function() { return this.center; };
+Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
