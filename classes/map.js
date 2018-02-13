@@ -19,6 +19,33 @@ function functor(x) {
   };
 }
 
+function _fakeResourceTiming(name) {
+  return {
+    name: name,
+    secureConnectionStart: 0,
+    redirectEnd: 0,
+    redirectStart: 0,
+    workerStart: 0,
+    startTime: 2886.775,
+    connectStart: 2886.775,
+    connectEnd: 2886.875,
+    fetchStart: 2886.875,
+    domainLookupStart: 2886.775,
+    domainLookupEnd: 2886.875,
+    requestStart: 2890.3700000000003,
+    responseStart: 2893.1650000000004,
+    responseEnd: 2893.78,
+    duration: 7.005000000000109,
+    entryType: "resource",
+    initiatorType: "xmlhttprequest",
+    nextHopProtocol: "http/1.1",
+    encodedBodySize: 155,
+    decodedBodySize: 155,
+    serverTiming: [],
+    transferSize: 443
+  };
+}
+
 var Map = module.exports = function(options) {
   this.options = util.extend(options || {}, defaultOptions);
   this._events = {};
@@ -88,6 +115,20 @@ Map.prototype.getSource = function(name) {
     return {
       setData: function(data) {
         this._sources[name].data = data;
+        if (this._sources[name].type === 'geojson') {
+          const e = {
+            type: 'data',
+            sourceDataType: 'content',
+            sourceId: name,
+            isSourceLoaded: true,
+            dataType: 'source',
+            source: this._sources[name]
+          };
+          // typeof data === 'string' corresponds to an AJAX load
+          if (this._collectResourceTiming && data && (typeof data === 'string'))
+            e.resourceTiming = [ _fakeResourceTiming(data) ];
+          this.fire('data', e);
+        }
       }.bind(this),
       loadTile: function() {}
     };
@@ -101,6 +142,19 @@ Map.prototype.loaded = function() {
 
 Map.prototype.addSource = function(name, source) {
   this._sources[name] = source;
+  if (source.type === 'geojson') {
+    const e = {
+      type: 'data',
+      sourceDataType: 'metadata',
+      sourceId: name,
+      isSourceLoaded: true,
+      dataType: 'source',
+      source: source
+    };
+    if (this._collectResourceTiming && source.data && (typeof source.data === 'string'))
+      e.resourceTiming = [ _fakeResourceTiming(source.data) ];
+    this.fire('data', e);
+  }
 };
 
 Map.prototype.removeSource = function(name) {
