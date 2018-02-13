@@ -250,11 +250,11 @@ Map.prototype.queryRenderedFeatures = function(pointOrBox, queryParams) {
 
     // if any of the sub features intersect with the seach box, return true
     // if none of them intersect with the search box, return false
-    return subFeatures.some(subFeautre => {
+    return subFeatures.some(subFeature => {
       // union takes two polygons and merges them.
       // If they intersect it returns them merged Polygon geometry type
       // If they don't intersect it retuns them as a MultiPolygon geomentry type
-      var merged = union(subFeautre, searchPolygon);
+      var merged = union(subFeature, searchPolygon);
       return merged.geometry.type === 'Polygon';
     });
   });
