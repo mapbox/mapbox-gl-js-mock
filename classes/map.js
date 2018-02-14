@@ -1,11 +1,13 @@
-var LngLat = require('mapbox-gl/js/geo/lng_lat');
+require('flow-remove-types/register')({ includes: /.*?\/mapbox-gl\/src\/.*/, excludes: { test: function() { return false; }} });
+
 var union = require('@turf/union');
 var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
-var Evented = require('mapbox-gl/js/util/evented');
-var Transform = require('mapbox-gl/js/geo/transform');
-var util = require('mapbox-gl/js/util/util');
+var LngLat = require('mapbox-gl/src/geo/lng_lat');
+var Evented = require('mapbox-gl/src/util/evented');
+var Transform = require('mapbox-gl/src/geo/transform');
+var util = require('mapbox-gl/src/util/util');
 
 var Style = require('./style');
 

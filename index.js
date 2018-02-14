@@ -8,8 +8,8 @@ FakeControl.prototype.onRemove = function() {}
 
 module.exports = {
   Map: require('./classes/map'),
-  LngLat: require('mapbox-gl/js/geo/lng_lat'),
-  LngLatBounds: require('mapbox-gl/js/geo/lng_lat'),
+  LngLat: require('mapbox-gl/src/geo/lng_lat'),
+  LngLatBounds: require('mapbox-gl/src/geo/lng_lat'),
   NavigationControl: FakeControl,
   ScaleControl: FakeControl,
   AttributionControl: FakeControl,
