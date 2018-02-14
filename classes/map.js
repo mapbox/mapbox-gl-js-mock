@@ -48,46 +48,49 @@ function _fakeResourceTiming(name) {
   };
 }
 
-var Map = module.exports = function(options) {
-  this.options = util.extend(options || {}, defaultOptions);
-  this._events = {};
-  this._sources = {};
-  this._collectResourceTiming = !!options.collectResourceTiming;
-  this.zoom = options.zoom || 0;
-  this.center = options.center ? new LngLat(options.center[0], options.center[1]) : new LngLat(0, 0);
-  this.style = new Style();
-  this.transform = new Transform();
-  this._controlCorners = {
-    'top-left': {
-      appendChild: function() {}
+var Map = function(options) {
+    var evented = new Evented();
+    this.on = evented.on;
+    this.fire = evented.fire;
+    this.listens = evented.listens;
+
+    this.options = util.extend(options || {}, defaultOptions);
+    this._events = {};
+    this._sources = {};
+    this._collectResourceTiming = !!this.options.collectResourceTiming;
+    this.zoom = this.options.zoom || 0;
+    this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
+    this.style = new Style();
+    this.transform = new Transform();
+    this._controlCorners = {
+      'top-left': {
+        appendChild: function() {}
+      }
     }
-  }
-  setTimeout(function() {
-    this.fire('load');
-  }.bind(this), 0);
+    setTimeout(function() {
+      this.fire('load');
+    }.bind(this), 0);
 
-  var setters = [
-    // Camera options
-    'jumpTo', 'panTo', 'panBy',
-    'setBearing',
-    'setPitch',
-    'setZoom',
-    'fitBounds',
-    'resetNorth',
-    'snapToNorth',
-    // Settings
-    'setMaxBounds', 'setMinZoom', 'setMaxZoom',
-    // Layer properties
-    'setLayoutProperty',
-    'setPaintProperty'
-  ];
-  var genericSetter = functor(this);
-  for (var i = 0; i < setters.length; i++) {
-    this[setters[i]] = genericSetter;
-  }
+    var setters = [
+      // Camera options
+      'jumpTo', 'panTo', 'panBy',
+      'setBearing',
+      'setPitch',
+      'setZoom',
+      'fitBounds',
+      'resetNorth',
+      'snapToNorth',
+      // Settings
+      'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+      // Layer properties
+      'setLayoutProperty',
+      'setPaintProperty'
+    ];
+    var genericSetter = functor(this);
+    for (var i = 0; i < setters.length; i++) {
+      this[setters[i]] = genericSetter;
+    }
 }
-
-util.extend(Map.prototype, Evented);
 
 Map.prototype.addControl = function(control) {
   control.onAdd(this);
@@ -268,3 +271,5 @@ Map.prototype.remove = function() {
   this._events = [];
   this.sources = [];
 }
+
+module.exports = Map;
