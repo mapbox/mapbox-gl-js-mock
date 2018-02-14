@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-js-mock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A maybe-some-day-fully-featured mock for mapbox-gl-js",
   "main": "index.js",
   "repository": {
