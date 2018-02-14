@@ -8,7 +8,7 @@
     "url": "git+https://github.com/mapbox/mapbox-gl-js-mock.git"
   },
   "scripts": {
-    "test": "tap test"
+    "test": "tape test/*test.js"
   },
   "keywords": [
     "mapbox-gl",
@@ -21,12 +21,16 @@
   },
   "homepage": "https://github.com/mapbox/mapbox-gl-js-mock#readme",
   "dependencies": {
-    "mapbox-gl": "0.20.x - 0.26.x",
     "@turf/bbox-polygon": "^3.0.10",
     "@turf/buffer": "^3.0.10",
-    "@turf/union": "^3.0.10"
+    "@turf/union": "^3.0.10",
+    "flow-remove-types": "^1.2.3",
+    "gl": "^4.0.4",
+    "jsdom": "^11.6.2",
+    "mapbox-gl": "^0.44.1",
+    "sinon": "^4.3.0"
   },
   "devDependencies": {
-    "tap": "8.0.0"
+    "tape": "^4.8.0"
   }
 }
