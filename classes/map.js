@@ -1,11 +1,13 @@
-var LngLat = require('mapbox-gl/js/geo/lng_lat');
+require('flow-remove-types/register')({ includes: /.*?\/mapbox-gl\/src\/.*/, excludes: { test: function() { return false; }} });
+
 var union = require('@turf/union');
 var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
-var Evented = require('mapbox-gl/js/util/evented');
-var Transform = require('mapbox-gl/js/geo/transform');
-var util = require('mapbox-gl/js/util/util');
+var LngLat = require('mapbox-gl/src/geo/lng_lat');
+var Evented = require('mapbox-gl/src/util/evented');
+var Transform = require('mapbox-gl/src/geo/transform');
+var util = require('mapbox-gl/src/util/util');
 
 var Style = require('./style');
 
@@ -19,44 +21,76 @@ function functor(x) {
   };
 }
 
-var Map = module.exports = function(options) {
-  this.options = util.extend(options || {}, defaultOptions);
-  this._events = {};
-  this._sources = {};
-  this.style = new Style();
-  this.transform = new Transform();
-  this._controlCorners = {
-    'top-left': {
-      appendChild: function() {}
-    }
-  }
-  setTimeout(function() {
-    this.fire('load');
-  }.bind(this), 0);
-
-  var setters = [
-    // Camera options
-    'jumpTo', 'panTo', 'panBy',
-    'setCenter',
-    'setBearing',
-    'setPitch',
-    'setZoom',
-    'fitBounds',
-    'resetNorth',
-    'snapToNorth',
-    // Settings
-    'setMaxBounds', 'setMinZoom', 'setMaxZoom',
-    // Layer properties
-    'setLayoutProperty',
-    'setPaintProperty'
-  ];
-  var genericSetter = functor(this);
-  for (var i = 0; i < setters.length; i++) {
-    this[setters[i]] = genericSetter;
-  }
+function _fakeResourceTiming(name) {
+  return {
+    name: name,
+    secureConnectionStart: 0,
+    redirectEnd: 0,
+    redirectStart: 0,
+    workerStart: 0,
+    startTime: 2886.775,
+    connectStart: 2886.775,
+    connectEnd: 2886.875,
+    fetchStart: 2886.875,
+    domainLookupStart: 2886.775,
+    domainLookupEnd: 2886.875,
+    requestStart: 2890.3700000000003,
+    responseStart: 2893.1650000000004,
+    responseEnd: 2893.78,
+    duration: 7.005000000000109,
+    entryType: "resource",
+    initiatorType: "xmlhttprequest",
+    nextHopProtocol: "http/1.1",
+    encodedBodySize: 155,
+    decodedBodySize: 155,
+    serverTiming: [],
+    transferSize: 443
+  };
 }
 
-util.extend(Map.prototype, Evented);
+var Map = function(options) {
+    var evented = new Evented();
+    this.on = evented.on;
+    this.fire = evented.fire;
+    this.listens = evented.listens;
+
+    this.options = util.extend(options || {}, defaultOptions);
+    this._events = {};
+    this._sources = {};
+    this._collectResourceTiming = !!this.options.collectResourceTiming;
+    this.zoom = this.options.zoom || 0;
+    this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
+    this.style = new Style();
+    this.transform = new Transform();
+    this._controlCorners = {
+      'top-left': {
+        appendChild: function() {}
+      }
+    }
+    setTimeout(function() {
+      this.fire('load');
+    }.bind(this), 0);
+
+    var setters = [
+      // Camera options
+      'jumpTo', 'panTo', 'panBy',
+      'setBearing',
+      'setPitch',
+      'setZoom',
+      'fitBounds',
+      'resetNorth',
+      'snapToNorth',
+      // Settings
+      'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+      // Layer properties
+      'setLayoutProperty',
+      'setPaintProperty'
+    ];
+    var genericSetter = functor(this);
+    for (var i = 0; i < setters.length; i++) {
+      this[setters[i]] = genericSetter;
+    }
+}
 
 Map.prototype.addControl = function(control) {
   control.onAdd(this);
@@ -86,6 +120,20 @@ Map.prototype.getSource = function(name) {
     return {
       setData: function(data) {
         this._sources[name].data = data;
+        if (this._sources[name].type === 'geojson') {
+          const e = {
+            type: 'data',
+            sourceDataType: 'content',
+            sourceId: name,
+            isSourceLoaded: true,
+            dataType: 'source',
+            source: this._sources[name]
+          };
+          // typeof data === 'string' corresponds to an AJAX load
+          if (this._collectResourceTiming && data && (typeof data === 'string'))
+            e.resourceTiming = [ _fakeResourceTiming(data) ];
+          this.fire('data', e);
+        }
       }.bind(this),
       loadTile: function() {}
     };
@@ -99,6 +147,19 @@ Map.prototype.loaded = function() {
 
 Map.prototype.addSource = function(name, source) {
   this._sources[name] = source;
+  if (source.type === 'geojson') {
+    const e = {
+      type: 'data',
+      sourceDataType: 'metadata',
+      sourceId: name,
+      isSourceLoaded: true,
+      dataType: 'source',
+      source: source
+    };
+    if (this._collectResourceTiming && source.data && (typeof source.data === 'string'))
+      e.resourceTiming = [ _fakeResourceTiming(source.data) ];
+    this.fire('data', e);
+  }
 };
 
 Map.prototype.removeSource = function(name) {
@@ -109,10 +170,11 @@ Map.prototype.addLayer = function(layer, before) {};
 Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
-Map.prototype.getZoom = functor(0);
+Map.prototype.getZoom = function() { return this.zoom; };
 Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
-Map.prototype.getCenter = functor(new LngLat(0, 0));
+Map.prototype.getCenter = function() { return this.center; };
+Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
@@ -193,11 +255,11 @@ Map.prototype.queryRenderedFeatures = function(pointOrBox, queryParams) {
 
     // if any of the sub features intersect with the seach box, return true
     // if none of them intersect with the search box, return false
-    return subFeatures.some(subFeautre => {
+    return subFeatures.some(subFeature => {
       // union takes two polygons and merges them.
       // If they intersect it returns them merged Polygon geometry type
       // If they don't intersect it retuns them as a MultiPolygon geomentry type
-      var merged = union(subFeautre, searchPolygon);
+      var merged = union(subFeature, searchPolygon);
       return merged.geometry.type === 'Polygon';
     });
   });
@@ -209,3 +271,5 @@ Map.prototype.remove = function() {
   this._events = [];
   this.sources = [];
 }
+
+module.exports = Map;
