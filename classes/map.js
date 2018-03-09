@@ -271,6 +271,9 @@ Map.prototype.remove = function() {
   this.sources = [];
 }
 
+Map.prototype.resize = function() {
+}
+
 Map.prototype.isStyleLoaded = function() {
     return true;
 }
