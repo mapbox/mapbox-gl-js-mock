@@ -5,14 +5,21 @@ FakeControl.prototype.addTo = function() {}
 /* New Control API */
 FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
-FakeControl.prototype.on = function() {}
+
+function FakePopup(){
+    this.setLngLat = () => {};
+    this.setHTML = () => {};
+    this.remove = () => {};
+    this. addTo = () => {};
+}
 
 module.exports = {
   Map: require('./classes/map'),
-  LngLat: require('mapbox-gl/src/geo/lng_lat'),
-  LngLatBounds: require('mapbox-gl/src/geo/lng_lat_bounds'),
+  LngLat: require('mapbox-gl').LngLat,
+  LngLatBounds: require('mapbox-gl').LngLatBounds,
   NavigationControl: FakeControl,
   ScaleControl: FakeControl,
   AttributionControl: FakeControl,
+  Popup: FakePopup,
   GeolocateControl: FakeControl
 }

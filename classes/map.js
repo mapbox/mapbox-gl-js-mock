@@ -1,13 +1,12 @@
-require('flow-remove-types/register')({ includes: /.*?\/mapbox-gl\/src\/.*/, excludes: { test: function() { return false; }} });
 
 var union = require('@turf/union');
 var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
-var LngLat = require('mapbox-gl/src/geo/lng_lat');
-var Evented = require('mapbox-gl/src/util/evented');
-var Transform = require('mapbox-gl/src/geo/transform');
-var util = require('mapbox-gl/src/util/util');
+var LngLat = require('mapbox-gl').LngLat;
+var Evented = require('mapbox-gl').Evented;
+var Transform = require('mapbox-gl').Transform;
+var util = require('mapbox-gl').util;
 
 var Style = require('./style');
 
@@ -54,14 +53,14 @@ var Map = function(options) {
     this.fire = evented.fire;
     this.listens = evented.listens;
 
-    this.options = util.extend(options || {}, defaultOptions);
+    this.options = Object.assign({}, defaultOptions, options); //util.extend(options || {}, defaultOptions);
     this._events = {};
     this._sources = {};
     this._collectResourceTiming = !!this.options.collectResourceTiming;
     this.zoom = this.options.zoom || 0;
     this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
     this.style = new Style();
-    this.transform = new Transform();
+    //this.transform = new Transform();
     this._controlCorners = {
       'top-left': {
         appendChild: function() {}
@@ -271,5 +270,16 @@ Map.prototype.remove = function() {
   this._events = [];
   this.sources = [];
 }
+
+Map.prototype.isStyleLoaded = function() {
+    return true;
+}
+
+Map.prototype.addImage = function(id, image) {
+}
+
+
+
+
 
 module.exports = Map;
