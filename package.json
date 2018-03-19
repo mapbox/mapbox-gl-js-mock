@@ -25,7 +25,6 @@
     "@turf/buffer": "^5.0.4",
     "@turf/union": "^5.0.4",
     "flow-remove-types": "^1.2.3",
-    "gl": "^4.0.4",
     "jsdom": "^11.6.2",
     "mapbox-gl": "^0.44.1",
     "sinon": "^4.3.0"
