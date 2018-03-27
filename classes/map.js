@@ -281,6 +281,15 @@ Map.prototype.isStyleLoaded = function() {
 Map.prototype.addImage = function(id, image) {
 }
 
+Map.prototype.getStyle = function() {
+  return {
+    layers: [],
+    metadata: {},
+    sources: this.sources,
+    zoom : this.zoom,
+    center: this.center
+  }
+}
 
 
 
