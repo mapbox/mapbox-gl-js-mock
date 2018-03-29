@@ -11,6 +11,7 @@ function FakePopup(){
     this.setHTML = () => {};
     this.remove = () => {};
     this. addTo = () => {};
+    this.getElement = () => document;
 }
 
 module.exports = {
