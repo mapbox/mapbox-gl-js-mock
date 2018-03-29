@@ -21,5 +21,6 @@ module.exports = {
   ScaleControl: FakeControl,
   AttributionControl: FakeControl,
   Popup: FakePopup,
+  Marker: FakePopup,
   GeolocateControl: FakeControl
 }
