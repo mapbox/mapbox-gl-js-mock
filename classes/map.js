@@ -72,7 +72,9 @@ var Map = function(options) {
       }
     }
     const container = this.options.container;
-    container && container.innerHTML = "<div><H1>THIS IS A MOCK MAP</H1></div>"
+    if(container){
+        container.innerHTML = "<div><H1>THIS IS A MOCK MAP</H1></div>";
+    }
     setTimeout(function() {
       this.fire('load');
     }.bind(this), 0);
