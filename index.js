@@ -1,16 +1,16 @@
 function FakeControl() { }
 
 /* Old Control API */
-FakeControl.prototype.addTo = function() {}
+FakeControl.prototype.addTo = function() { return this; }
 /* New Control API */
 FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
 
 function FakePopup(){
-    this.setLngLat = () => {};
-    this.setHTML = () => {};
-    this.remove = () => {};
-    this. addTo = () => {};
+    this.setLngLat = () => { return this; };
+    this.setHTML = () => { return this; };
+    this.remove = () => { return this; };
+    this. addTo = () => { return this; };
     this.getElement = () => document;
 }
 
