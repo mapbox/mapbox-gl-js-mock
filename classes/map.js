@@ -71,6 +71,8 @@ var Map = function(options) {
         appendChild: function() {}
       }
     }
+    const container = this.options.container;
+    container && container.innerHTML = "<div><H1>THIS IS A MOCK MAP</H1></div>"
     setTimeout(function() {
       this.fire('load');
     }.bind(this), 0);
@@ -101,20 +103,23 @@ Map.prototype.addControl = function(control) {
 }
 
 Map.prototype.getContainer = function() {
-  var container = {
-    parentNode: container,
-    appendChild: function() {},
-    removeChild: function() {},
-    getElementsByClassName: function() {
-      return [container]
-    },
-    addEventListener: function(name, handle) {},
-    removeEventListener: function(){},
-    classList: {
-      add: function() {},
-      remove: function(){}
+    if(this.options.container){
+        return this.options.container;
     }
-  };
+    var container = {
+        parentNode: container,
+        appendChild: function() {},
+        removeChild: function() {},
+        getElementsByClassName: function() {
+            return [container]
+        },
+        addEventListener: function(name, handle) {},
+        removeEventListener: function(){},
+        classList: {
+            add: function() {},
+            remove: function(){}
+        }
+    };
 
   return container;
 }
