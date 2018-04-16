@@ -58,6 +58,7 @@ var Map = function(options) {
     this.options = Object.assign({}, defaultOptions, options); //util.extend(options || {}, defaultOptions);
     this._events = {};
     this._sources = {};
+    this.layers = {};
     this._collectResourceTiming = !!this.options.collectResourceTiming;
     this.zoom = this.options.zoom || 0;
     this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
@@ -103,6 +104,10 @@ var Map = function(options) {
 
 Map.prototype.addControl = function(control) {
   control.onAdd(this);
+}
+
+Map.prototype.removeControl = function(control) {
+  control.onRemove(this);
 }
 
 Map.prototype.getContainer = function() {
@@ -178,9 +183,9 @@ Map.prototype.removeSource = function(name) {
   delete this._sources[name];
 };
 
-Map.prototype.addLayer = function(layer, before) {};
-Map.prototype.removeLayer = function(layerId) {};
-Map.prototype.getLayer = function(layerId) {};
+Map.prototype.addLayer = function(layer, before) { this.layers[layer.id] = layer; };
+Map.prototype.removeLayer = function(layerId) { del this.layers[layerId]; };
+Map.prototype.getLayer = function(layerId) {return this.layers[layerId]};
 
 Map.prototype.getZoom = function() { return this.zoom; };
 Map.prototype.getBearing = functor(0);
@@ -280,6 +285,7 @@ Map.prototype.queryRenderedFeatures = function(pointOrBox, queryParams) {
 }
 
 Map.prototype.remove = function() {
+  this.layers = {};
   this._events = [];
   this.sources = [];
 }
@@ -299,9 +305,9 @@ Map.prototype.addImage = function(id, image) {
 
 Map.prototype.getStyle = function() {
   return {
-    layers: [],
+    layers: Object.values(this.layers),
     metadata: {},
-    sources: this.sources,
+    sources: Object.values(this._sources),
     zoom : this.zoom,
     center: this.center
   }
