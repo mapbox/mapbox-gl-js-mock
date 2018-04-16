@@ -158,6 +158,7 @@ Map.prototype.getSource = function(name) {
     }
 };
 
+Map.prototype.setStyle = function() {};
 Map.prototype.loaded = function() {
     return true;
 };
