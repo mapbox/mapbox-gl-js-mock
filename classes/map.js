@@ -184,7 +184,7 @@ Map.prototype.removeSource = function(name) {
 };
 
 Map.prototype.addLayer = function(layer, before) { this.layers[layer.id] = layer; };
-Map.prototype.removeLayer = function(layerId) { del this.layers[layerId]; };
+Map.prototype.removeLayer = function(layerId) { delete this.layers[layerId]; };
 Map.prototype.getLayer = function(layerId) {return this.layers[layerId]};
 
 Map.prototype.getZoom = function() { return this.zoom; };
