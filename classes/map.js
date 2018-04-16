@@ -78,6 +78,7 @@ var Map = function(options) {
         container.innerHTML = "<div><H1>THIS IS A MOCK MAP</H1></div>";
     }
     setTimeout(function() {
+      this.fire('style.load');
       this.fire('load');
     }.bind(this), 0);
 
