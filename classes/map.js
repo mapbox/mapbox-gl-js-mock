@@ -158,7 +158,12 @@ Map.prototype.getSource = function(name) {
     }
 };
 
-Map.prototype.setStyle = function() {};
+Map.prototype.setStyle = function() {
+    setTimeout(function() {
+        this.fire('style.load');
+    }.bind(this), 0);
+};
+
 Map.prototype.loaded = function() {
     return true;
 };
