@@ -58,6 +58,7 @@ var Map = function(options) {
     this.options = Object.assign({}, defaultOptions, options);
     this._events = {};
     this._sources = {};
+    this._images = {};
     this.layers = {};
     this._collectResourceTiming = !!this.options.collectResourceTiming;
     this.zoom = this.options.zoom || 0;
@@ -100,6 +101,14 @@ var Map = function(options) {
     for (var i = 0; i < setters.length; i++) {
         this[setters[i]] = genericSetter;
     }
+};
+
+Map.prototype.addImage = function(id, el) {
+    this._images[id] = el;
+};
+
+Map.prototype.hasImage = function(id) {
+    return this._images[id];
 };
 
 Map.prototype.addControl = function(control) {
@@ -295,6 +304,7 @@ Map.prototype.remove = function() {
     this.layers = {};
     this._events = [];
     this.sources = [];
+    this._images = {};
 };
 
 Map.prototype.resize = function() {
