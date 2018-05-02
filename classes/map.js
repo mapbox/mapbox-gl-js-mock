@@ -140,6 +140,10 @@ Map.prototype.getSource = function(name) {
   }
 };
 
+Map.prototype.isMoving = function() {
+  return false;
+}
+
 Map.prototype.loaded = function() {
   return true;
 };
