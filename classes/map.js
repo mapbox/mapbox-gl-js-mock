@@ -332,7 +332,7 @@ Map.prototype.selectPoi = function() {
 };
 
 Map.prototype.getBounds = function () {
-  return new Bounds()
+  return new Bounds(this)
 }
 
 Map.prototype.on = function(type, ...options) {
