@@ -80,7 +80,7 @@ var Map = function(options) {
 
   var setters = [
     // Camera options
-    'jumpTo', 'panTo', 'panBy', 'flyTo',
+    'jumpTo', 'panTo', 'panBy',
     'setBearing',
     'setPitch',
     'setZoom',
@@ -353,6 +353,11 @@ Map.prototype.fire = function(type, layer) {
 
 Map.prototype.listens = function(type, layer) {
   this.evented.listens(type, layer)
+}
+
+Map.prototype.flyTo = function({center, zoom}) {
+  this.center = center
+  this.zoom = zoom
 }
 
 module.exports = Map;

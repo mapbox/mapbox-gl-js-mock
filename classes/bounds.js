@@ -6,7 +6,7 @@ function Bounds(map){
 }
 
 Bounds.prototype.toArray = function() {
-  return []
+  return [this._e, this._w, this._n, this._s];
 };
 
 Bounds.prototype.getSouth = function() {
@@ -20,6 +20,9 @@ Bounds.prototype.getNorth = function() {
 };
 Bounds.prototype.getEast = function() {
   return this._e
+};
+Bounds.prototype.extend = function() {
+  return this
 };
 
 module.exports = Bounds;
