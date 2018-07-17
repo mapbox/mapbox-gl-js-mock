@@ -84,7 +84,6 @@ var Map = function(options) {
     'setBearing',
     'setPitch',
     'setZoom',
-    'fitBounds',
     'resetNorth',
     'snapToNorth',
     // Settings
@@ -357,6 +356,11 @@ Map.prototype.listens = function(type, layer) {
 
 Map.prototype.flyTo = function({center, zoom}) {
   this.center = center
+  this.zoom = zoom
+}
+
+Map.prototype.fitBounds = function(bounds) {
+  this.center = {lat : bounds[0], lng : bounds[3]}
   this.zoom = zoom
 }
 
