@@ -63,7 +63,8 @@ var Map = function(options) {
     style: {
     }
   };
-  this.transform = new Transform()
+  this.popups = [];
+  this.transform = new Transform();
   this._controlCorners = {
     'top-left': {
       appendChild: function() {}
@@ -71,7 +72,7 @@ var Map = function(options) {
   };
   const container = this.options.container;
   if(container && document.querySelector(`#${container}`)) {
-    document.querySelector(`#${container}`).innerHTML = '<div><H1>THIS IS A MOCK MAP</H1><canvas class="mapboxgl-canvas"></canvas><div style="width: 300px;height: 100px;background: crimson" id="mock_poi" onclick="MAP_MOCK.fire(\'click\',\'poi-level-1\')"></div></div>';
+    document.querySelector(`#${container}`).innerHTML = '<div><H1>THIS IS A MOCK MAP</H1><canvas class="mapboxgl-canvas"></canvas><div style="width: 300px;height: 100px;background: crimson" id="mock_poi" onmouseenter="MAP_MOCK.fire(\'mouseenter\', \'poi-level-1\')" onclick="MAP_MOCK.fire(\'click\',\'poi-level-1\')"></div></div>';
   }
   setTimeout(function() {
     this.fire('style.load');
@@ -362,6 +363,10 @@ Map.prototype.flyTo = function({center, zoom}) {
 Map.prototype.fitBounds = function(bounds) {
   this.center = {lat : bounds[0], lng : bounds[3]}
   this.zoom = zoom
+}
+
+Map.prototype.getCanvas = function() {
+  return document.createElement('canvas')
 }
 
 module.exports = Map;

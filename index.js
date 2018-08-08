@@ -7,11 +7,11 @@ FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
 
 function FakePopup(){
-    this.setLngLat = () => { return this; };
-    this.setHTML = () => { return this; };
-    this.remove = () => { return this; };
-    this. addTo = () => { return this; };
-    this.getElement = () => document;
+  this.setLngLat = () => { return this; };
+  this.setHTML = (html) => { this.html = html;return this; };
+  this.remove = () => { return this; };
+  this. addTo = (map) => { map.popups.push(this);return this; };
+  this.getElement = () => document;
 }
 
 module.exports = {
