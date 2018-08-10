@@ -39,14 +39,11 @@ Evented.prototype.getEvents = function () {
 };
 
 Evented.prototype.prepare = function (type, layer, ...options) {
-  let event = this.events.find((event) => {
-    return event.type === type && event.layer === layer
+  this.events.forEach((event) => {
+   if(event.type === type && event.layer === layer) {
+     event.prepare = options
+   }
   });
-  if(event) {
-    event.prepare = options
-  } else {
-    console.error(`mapbox-mock : no event for this selector : ${type}, ${layer}`)
-  }
 };
 
 module.exports = Evented;
