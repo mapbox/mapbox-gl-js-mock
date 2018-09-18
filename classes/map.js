@@ -51,6 +51,7 @@ function _fakeResourceTiming(name) {
 var Map = function(options) {
     var evented = new Evented();
     this.on = evented.on;
+    this.off = evented.off;
     this.fire = evented.fire;
     this.listens = evented.listens;
 
@@ -175,6 +176,12 @@ Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
+Map.prototype.easeTo = function(params) {};
+Map.prototype.getStyle = function() { return { 'layers': []}};
+Map.prototype.querySourceFeatures = function() {};
+Map.prototype.isStyleLoaded = function() { return this.style !== null; };
+Map.prototype.isSourceLoaded = function() { return; };
+Map.prototype.plugins = {};
 
 Map.prototype.doubleClickZoom = {
   disable: function() {},
