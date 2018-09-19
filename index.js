@@ -14,5 +14,6 @@ module.exports = {
   NavigationControl: FakeControl,
   ScaleControl: FakeControl,
   AttributionControl: FakeControl,
-  GeolocateControl: FakeControl
+  GeolocateControl: FakeControl,
+  Marker: require('./classes/marker')
 }
