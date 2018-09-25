@@ -70,6 +70,7 @@ var Map = function(options) {
     }
     setTimeout(function() {
       this.fire('load');
+      this.fire('style.load');
     }.bind(this), 0);
 
     var setters = [
@@ -176,7 +177,24 @@ Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
-Map.prototype.easeTo = function(params) {};
+
+Map.prototype.easeTo = function(paramObject) {
+  if (Array.isArray(paramObject.center)) {
+    this.setCenter(paramObject.center)
+  } else {
+    const centerArray = [paramObject.center.lng, paramObject.center.lat];
+    this.setCenter(centerArray);
+  }
+};
+Map.prototype.flyTo = function(paramObject) {
+  if (Array.isArray(paramObject.center)) {
+    this.setCenter(paramObject.center)
+  } else {
+    const centerArray = [paramObject.center.lng, paramObject.center.lat];
+    this.setCenter(centerArray);
+  }
+}
+
 Map.prototype.getStyle = function() { return { 'layers': []}};
 Map.prototype.querySourceFeatures = function() {};
 Map.prototype.isStyleLoaded = function() { return this.style !== null; };
