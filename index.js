@@ -5,6 +5,7 @@ FakeControl.prototype.addTo = function() { return this; }
 /* New Control API */
 FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
+FakeControl.prototype._setupUI = function() {}
 
 function FakePopup(){
   this.setLngLat = () => { return this; };
