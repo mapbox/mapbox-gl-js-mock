@@ -6,6 +6,10 @@ FakeControl.prototype.addTo = function() { return this; }
 FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
 FakeControl.prototype._setupUI = function() {}
+FakeControl.prototype._onMove = function() {}
+FakeControl.prototype._updateAttributions = function() {}
+FakeControl.prototype._updateEditLink = function() {}
+FakeControl.prototype._updateCompact = function() {}
 
 function FakePopup(){
   this.setLngLat = () => { return this; };
