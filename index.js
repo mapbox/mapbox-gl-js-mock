@@ -5,6 +5,10 @@ FakeControl.prototype.addTo = function() { return this; }
 /* New Control API */
 FakeControl.prototype.onAdd = function() {}
 FakeControl.prototype.onRemove = function() {}
+FakeControl.prototype._onMove = function() {}
+FakeControl.prototype._updateAttributions = function() {}
+FakeControl.prototype._updateEditLink = function() {}
+FakeControl.prototype._updateCompact = function() {}
 
 function FakePopup(){
   this.setLngLat = () => { return this; };
