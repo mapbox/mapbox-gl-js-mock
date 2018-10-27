@@ -51,6 +51,7 @@ function _fakeResourceTiming(name) {
 var Map = function(options) {
     var evented = new Evented();
     this.on = evented.on;
+    this.off = evented.off;
     this.fire = evented.fire;
     this.listens = evented.listens;
 
