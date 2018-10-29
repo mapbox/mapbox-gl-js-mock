@@ -6,7 +6,6 @@ var buffer = require('@turf/buffer');
 var LngLat = require('mapbox-gl').LngLat;
 var Evented = require('./evented');
 var Transform = require('./transform')
-var util = require('mapbox-gl').util;
 
 var Style = require('./style');
 
