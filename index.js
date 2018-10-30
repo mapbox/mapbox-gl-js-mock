@@ -1,4 +1,5 @@
 function FakeControl() { }
+function setRTLTextPlugin() { }
 
 /* Old Control API */
 FakeControl.prototype.addTo = function() { return this; }
@@ -28,5 +29,6 @@ module.exports = {
   AttributionControl: FakeControl,
   Popup: FakePopup,
   Marker: FakePopup,
-  GeolocateControl: FakeControl
+  GeolocateControl: FakeControl,
+  setRTLTextPlugin : setRTLTextPlugin
 }
