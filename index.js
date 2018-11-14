@@ -11,6 +11,8 @@ FakeControl.prototype._onMove = function() {}
 FakeControl.prototype._updateAttributions = function() {}
 FakeControl.prototype._updateEditLink = function() {}
 FakeControl.prototype._updateCompact = function() {}
+FakeControl.prototype.on = function() {}
+
 
 function FakePopup(){
   this.setLngLat = () => { return this; };
