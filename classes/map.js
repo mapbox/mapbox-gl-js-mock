@@ -4,9 +4,9 @@ var union = require('@turf/union');
 var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
-var LngLat = require('mapbox-gl/src/geo/lng_lat');
-var Evented = require('mapbox-gl/src/util/evented');
-var Transform = require('mapbox-gl/src/geo/transform');
+var LngLat = require('mapbox-gl/src/geo/lng_lat').default;
+var Evented = require('mapbox-gl/src/util/evented').Evented;
+var Transform = require('mapbox-gl/src/geo/transform').default;
 var util = require('mapbox-gl/src/util/util');
 
 var Style = require('./style');
