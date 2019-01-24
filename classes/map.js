@@ -97,22 +97,37 @@ Map.prototype.addControl = function(control) {
 }
 
 Map.prototype.getContainer = function() {
-  var container = {
-    parentNode: container,
-    appendChild: function() {},
-    removeChild: function() {},
-    getElementsByClassName: function() {
-      return [container]
-    },
-    addEventListener: function(name, handle) {},
-    removeEventListener: function(){},
-    classList: {
-      add: function() {},
-      remove: function(){}
-    }
-  };
+  if (!this._container) {
+    this._container = {
+      parentNode: container,
+      appendChild: function() {},
+      removeChild: function() {},
+      getElementsByClassName: function() {
+        return [container]
+      },
+      addEventListener: function(name, handle) {},
+      removeEventListener: function(){},
+      getClientBoundingRect: function() {
+        return {
+          width: 0,
+          height: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        };
+      },
+      classList: {
+        add: function() {},
+        remove: function(){}
+      }
+    };
+  }
+  return this._container;
+}
 
-  return container;
+Map.prototype.resize = function() {
+  this.getContainer().getClientBoundingRect();
 }
 
 Map.prototype.getSource = function(name) {
