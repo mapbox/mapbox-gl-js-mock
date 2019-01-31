@@ -297,4 +297,9 @@ Map.prototype.remove = function() {
   this.sources = [];
 }
 
+// set filter stub
+Map.prototype.setFilter = function() {
+  return;
+}
+
 module.exports = Map;
