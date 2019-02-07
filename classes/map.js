@@ -360,12 +360,18 @@ Map.prototype.flyTo = function({center, zoom}) {
 }
 
 Map.prototype.fitBounds = function(bounds) {
-  this.center = {lat : bounds[0], lng : bounds[3]}
-  this.zoom = zoom
+  this.center = {lat : bounds._ne.lat, lng : bounds._ne.lng}
+  this.zoom = 0
 }
 
 Map.prototype.getCanvas = function() {
   return document.createElement('canvas')
 }
+
+Map.prototype.setFeatureState = function (fs) {
+  MAP_MOCK.featureState = fs
+}
+
+Map.prototype.moveLayer = function () {}
 
 module.exports = Map;
