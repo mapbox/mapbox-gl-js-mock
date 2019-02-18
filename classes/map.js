@@ -218,6 +218,8 @@ Map.prototype.dragPan = {
 
 Map.prototype.project = function() {}
 
+Map.prototype.setFeatureState = function() {}
+
 /**
  * Returns an array of features that overlap with the pointOrBox
  * Currently it does not respect queryParams
