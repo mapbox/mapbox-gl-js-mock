@@ -196,7 +196,7 @@ Map.prototype.flyTo = function(paramObject) {
 }
 
 Map.prototype.getStyle = function() { return { 'layers': []}};
-Map.prototype.querySourceFeatures = function() {};
+Map.prototype.querySourceFeatures = function() { return []; };
 Map.prototype.isStyleLoaded = function() { return this.style !== null; };
 Map.prototype.isSourceLoaded = function() { return; };
 Map.prototype.plugins = {};
