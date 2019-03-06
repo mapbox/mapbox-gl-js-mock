@@ -12,6 +12,15 @@ const Marker = function(data) {
     return this.latlong;
   }
 
+  this.setOffset = function(offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  this.getOffset = function() {
+    return this.offset;
+  }
+
   this.addTo = function(map) {
     return this;
   }
