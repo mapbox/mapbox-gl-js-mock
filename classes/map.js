@@ -49,49 +49,56 @@ function _fakeResourceTiming(name) {
 }
 
 var Map = function(options) {
-    var evented = new Evented();
-    this.on = evented.on;
-    this.off = evented.off;
-    this.fire = evented.fire;
-    this.listens = evented.listens;
+  var evented = new Evented();
+  this.on = evented.on;
+  this.off = evented.off;
+  this.fire = evented.fire;
+  this.listens = evented.listens;
 
-    this.options = util.extend(options || {}, defaultOptions);
-    this._events = {};
-    this._sources = {};
-    this._collectResourceTiming = !!this.options.collectResourceTiming;
-    this.zoom = this.options.zoom || 0;
-    this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
-    this.style = new Style();
-    this.transform = new Transform();
-    this._controlCorners = {
-      'top-left': {
-        appendChild: function() {}
-      }
+  this.options = util.extend(options || {}, defaultOptions);
+  this._events = {};
+  this._sources = {};
+  this._collectResourceTiming = !!this.options.collectResourceTiming;
+  this.zoom = this.options.zoom || 0;
+  this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
+  this.style = new Style();
+  this.transform = new Transform();
+  this._controlCorners = {
+    'top-left': {
+      appendChild: function() {}
     }
-    setTimeout(function() {
-      this.fire('load');
-      this.fire('style.load');
-    }.bind(this), 0);
+  }
+  setTimeout(function() {
+    this.fire('load');
+    this.fire('style.load');
+  }.bind(this), 0);
 
-    var setters = [
-      // Camera options
-      'jumpTo', 'panTo', 'panBy',
-      'setBearing',
-      'setPitch',
-      'setZoom',
-      'fitBounds',
-      'resetNorth',
-      'snapToNorth',
-      // Settings
-      'setMaxBounds', 'setMinZoom', 'setMaxZoom',
-      // Layer properties
-      'setLayoutProperty',
-      'setPaintProperty'
-    ];
-    var genericSetter = functor(this);
-    for (var i = 0; i < setters.length; i++) {
-      this[setters[i]] = genericSetter;
-    }
+  var setters = [
+    // Camera options
+    'jumpTo', 'panTo', 'panBy',
+    'setPitch',
+    'setZoom',
+    'fitBounds',
+    'resetNorth',
+    'snapToNorth',
+    // Settings
+    'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+    // Layer properties
+    'setLayoutProperty',
+    'setPaintProperty'
+  ];
+  var genericSetter = functor(this);
+  for (var i = 0; i < setters.length; i++) {
+    this[setters[i]] = genericSetter;
+  }
+}
+
+Map.prototype.setBearing = function(bearing) {
+  this.bearing = bearing;
+}
+
+Map.prototype.getBearing = function() {
+  return this.bearing;
 }
 
 Map.prototype.addControl = function(control) {
@@ -173,7 +180,6 @@ Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
 Map.prototype.getZoom = function() { return this.zoom; };
-Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
@@ -214,6 +220,32 @@ Map.prototype.boxZoom = {
 Map.prototype.dragPan = {
   disable: function() {},
   enable: function() {}
+}
+
+Map.prototype.dragRotate = {
+  enabled: true,
+  isEnabled: function() {
+    return this.enabled;
+  },
+  disable: function() {
+    this.enabled = false;
+  },
+  enable: function() {
+    this.enabled = true;
+  }
+}
+
+Map.prototype.touchZoomRotate = {
+  enabled: true,
+  isEnabled: function() {
+    return this.enabled;
+  },
+  disable: function() {
+    this.enabled = false;
+  },
+  enable: function() {
+    this.enabled = true;
+  }
 }
 
 Map.prototype.project = function() {}
