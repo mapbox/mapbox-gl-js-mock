@@ -49,47 +49,47 @@ function _fakeResourceTiming(name) {
 }
 
 var Map = function(options) {
-  var evented = new Evented();
-  this.on = evented.on;
-  this.off = evented.off;
-  this.fire = evented.fire;
-  this.listens = evented.listens;
+    var evented = new Evented();
+    this.on = evented.on;
+    this.off = evented.off;
+    this.fire = evented.fire;
+    this.listens = evented.listens;
 
-  this.options = util.extend(options || {}, defaultOptions);
-  this._events = {};
-  this._sources = {};
-  this._collectResourceTiming = !!this.options.collectResourceTiming;
-  this.zoom = this.options.zoom || 0;
-  this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
-  this.style = new Style();
-  this.transform = new Transform();
-  this._controlCorners = {
-    'top-left': {
-      appendChild: function() {}
+    this.options = util.extend(options || {}, defaultOptions);
+    this._events = {};
+    this._sources = {};
+    this._collectResourceTiming = !!this.options.collectResourceTiming;
+    this.zoom = this.options.zoom || 0;
+    this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
+    this.style = new Style();
+    this.transform = new Transform();
+    this._controlCorners = {
+      'top-left': {
+        appendChild: function() {}
+      }
     }
-  }
-  setTimeout(function() {
-    this.fire('load');
-    this.fire('style.load');
-  }.bind(this), 0);
+    setTimeout(function() {
+      this.fire('load');
+      this.fire('style.load');
+    }.bind(this), 0);
 
-  var setters = [
-    // Camera options
-    'jumpTo', 'panTo', 'panBy',
-    'setPitch',
-    'setZoom',
-    'fitBounds',
-    'resetNorth',
-    'snapToNorth',
-    // Settings
-    'setMaxBounds', 'setMinZoom', 'setMaxZoom',
-    // Layer properties
-    'setLayoutProperty',
-    'setPaintProperty'
-  ];
-  var genericSetter = functor(this);
-  for (var i = 0; i < setters.length; i++) {
-    this[setters[i]] = genericSetter;
+    var setters = [
+      // Camera options
+      'jumpTo', 'panTo', 'panBy',
+      'setPitch',
+      'setZoom',
+      'fitBounds',
+      'resetNorth',
+      'snapToNorth',
+      // Settings
+      'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+      // Layer properties
+      'setLayoutProperty',
+      'setPaintProperty'
+    ];
+    var genericSetter = functor(this);
+    for (var i = 0; i < setters.length; i++) {
+      this[setters[i]] = genericSetter;
   }
 }
 
