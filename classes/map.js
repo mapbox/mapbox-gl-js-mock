@@ -76,7 +76,6 @@ var Map = function(options) {
     var setters = [
       // Camera options
       'jumpTo', 'panTo', 'panBy',
-      'setBearing',
       'setPitch',
       'setZoom',
       'fitBounds',
@@ -91,7 +90,15 @@ var Map = function(options) {
     var genericSetter = functor(this);
     for (var i = 0; i < setters.length; i++) {
       this[setters[i]] = genericSetter;
-    }
+  }
+}
+
+Map.prototype.setBearing = function(bearing) {
+  this.bearing = bearing;
+}
+
+Map.prototype.getBearing = function() {
+  return this.bearing;
 }
 
 Map.prototype.addControl = function(control) {
@@ -173,7 +180,6 @@ Map.prototype.removeLayer = function(layerId) {};
 Map.prototype.getLayer = function(layerId) {};
 
 Map.prototype.getZoom = function() { return this.zoom; };
-Map.prototype.getBearing = functor(0);
 Map.prototype.getPitch = functor(0);
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
@@ -214,6 +220,32 @@ Map.prototype.boxZoom = {
 Map.prototype.dragPan = {
   disable: function() {},
   enable: function() {}
+}
+
+Map.prototype.dragRotate = {
+  enabled: true,
+  isEnabled: function() {
+    return this.enabled;
+  },
+  disable: function() {
+    this.enabled = false;
+  },
+  enable: function() {
+    this.enabled = true;
+  }
+}
+
+Map.prototype.touchZoomRotate = {
+  enabled: true,
+  isEnabled: function() {
+    return this.enabled;
+  },
+  disable: function() {
+    this.enabled = false;
+  },
+  enable: function() {
+    this.enabled = true;
+  }
 }
 
 Map.prototype.project = function() {}
