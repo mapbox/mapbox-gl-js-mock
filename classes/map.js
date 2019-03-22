@@ -243,6 +243,9 @@ Map.prototype.touchZoomRotate = {
   disable: function() {
     this.enabled = false;
   },
+  disableRotation: function() {
+    this.enabled = false;
+  },
   enable: function() {
     this.enabled = true;
   }
