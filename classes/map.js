@@ -67,7 +67,37 @@ var Map = function(options) {
       'top-left': {
         appendChild: function() {}
       }
-    }
+    };
+
+    this.dragRotate = {
+      enabled: true,
+      isEnabled: function() {
+        return this.enabled;
+      },
+      disable: function() {
+        this.enabled = false;
+      },
+      enable: function() {
+        this.enabled = true;
+      }
+    };
+
+    this.touchZoomRotate = {
+      enabled: true,
+      isEnabled: function() {
+        return this.enabled;
+      },
+      disable: function() {
+        this.enabled = false;
+      },
+      disableRotation: function() {
+        this.enabled = false;
+      },
+      enable: function() {
+        this.enabled = true;
+      }
+    };
+
     setTimeout(function() {
       this.fire('load');
       this.fire('style.load');
@@ -220,35 +250,6 @@ Map.prototype.boxZoom = {
 Map.prototype.dragPan = {
   disable: function() {},
   enable: function() {}
-}
-
-Map.prototype.dragRotate = {
-  enabled: true,
-  isEnabled: function() {
-    return this.enabled;
-  },
-  disable: function() {
-    this.enabled = false;
-  },
-  enable: function() {
-    this.enabled = true;
-  }
-}
-
-Map.prototype.touchZoomRotate = {
-  enabled: true,
-  isEnabled: function() {
-    return this.enabled;
-  },
-  disable: function() {
-    this.enabled = false;
-  },
-  disableRotation: function() {
-    this.enabled = false;
-  },
-  enable: function() {
-    this.enabled = true;
-  }
 }
 
 Map.prototype.project = function() {}
